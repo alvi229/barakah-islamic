@@ -225,7 +225,7 @@ const DateBar = () => {
   });
 
   useEffect(() => {
-    const updateDates = () => {
+   const updateDates = async () => {
       const now = new Date();
       
       // Gregorian in Bengali
@@ -251,7 +251,9 @@ const DateBar = () => {
       }
       
       // Hijri Date using native Intl.DateTimeFormat or fallback
-      let hijriStr = '';
+     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+console.log("User Timezone:", timezone);
+     let hijriStr = '';
       try {
         const hjFormatter = new Intl.DateTimeFormat('bn-BD-u-ca-islamic-umalqura', {
           day: 'numeric',
