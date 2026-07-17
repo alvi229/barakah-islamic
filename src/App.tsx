@@ -253,21 +253,26 @@ const DateBar = () => {
       // Hijri Date using native Intl.DateTimeFormat or fallback
      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 console.log("User Timezone:", timezone);
-     let hijriStr = '';
-      try {
-        const hjFormatter = new Intl.DateTimeFormat('bn-BD-u-ca-islamic-umalqura', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-        hijriStr = hjFormatter.format(now);
-        hijriStr = hijriStr.replace('যুগ', '').trim();
-        if (!hijriStr.includes('হিজরী') && !hijriStr.includes('হিজরি')) {
-          hijriStr += ' হিজরী';
-        }
-      } catch (e) {
-        hijriStr = getTabularHijriDate(now);
-      }
+     let hijriStr = "";
+
+try {
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+  const res = await fetch(
+    `https://api.aladhan.com/v1/gToH?date=${now.getDate()}-${now.getMonth() + 1}-${now.getFullYear()}&timezone=${timezone}`
+  );
+
+  const json = await res.json();
+
+  const hijri = json.data.hijri;
+
+  hijriStr = `${hijri.day} ${hijri.month.en} ${hijri.year} AH`;
+
+} catch (error) {
+  console.error(error);
+
+  hijriStr = "Hijri Date";
+}
 
       setDates({
         gregorian: greg,
