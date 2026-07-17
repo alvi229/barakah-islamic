@@ -1638,10 +1638,19 @@ const response = await ai.models.generateContent({
 
       const aiResponse = response.text || "দুঃখিত, আমি এই মুহূর্তে উত্তর দিতে পারছি না।";
       setMessages(prev => [...prev, { role: 'ai', content: aiResponse }]);
-    } catch (error) {
-      console.error(error);
-      setMessages(prev => [...prev, { role: 'ai', content: "দুঃখিত, একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।" }]);
-    } finally {
+    } catch (error: any) {
+  console.error("Gemini Error:", error);
+
+  alert(error?.message || JSON.stringify(error));
+
+  setMessages(prev => [
+    ...prev,
+    {
+      role: "ai",
+      content: "দুঃখিত, একটি সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।"
+    }
+  ]);
+} finally {
       setLoading(false);
     }
   };
