@@ -1622,10 +1622,15 @@ const BarakahAIModal = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => v
     setLoading(true);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY });
-      const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
-        contents: userMessage,
+     console.log("API KEY:", (import.meta as any).env.VITE_GEMINI_API_KEY);
+
+const ai = new GoogleGenAI({
+  apiKey: (import.meta as any).env.VITE_GEMINI_API_KEY
+});
+
+const response = await ai.models.generateContent({
+  model: "gemini-3-flash-preview",
+  contents: userMessage,
         config: {
           systemInstruction: "আপনি একজন ইসলামিক বিশেষজ্ঞ এআই সহকারী। আপনার নাম 'Barakah AI'। আপনি ব্যবহারকারীদের ইসলামিক জ্ঞান, কুরআন, হাদিস এবং দৈনন্দিন জীবনের ইসলামিক সমাধান প্রদান করেন। আপনার উত্তরগুলো হতে হবে মার্জিত, সঠিক এবং ইসলামিক রেফারেন্স সহ (যদি সম্ভব হয়)। বাংলা ভাষায় উত্তর দিন।",
         }
